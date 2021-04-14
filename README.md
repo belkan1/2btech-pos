@@ -22,7 +22,7 @@ php artisan key:generate
 php artisan jwt:secret
 php artisan config:cache
 ```
-##Debugging
+## Debugging
 
 run composer install after downloading git repository.
 
