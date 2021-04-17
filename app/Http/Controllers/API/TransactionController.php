@@ -8,8 +8,10 @@ use App\Model\Transaction;
 use App\Model\TransactionDetail;
 use App\Model\Product;
 use App\Http\Resources\TransactionCollection;
+use App\Mail\TransactionEmail;
 use Ramsey\Uuid\Uuid;
 use Auth;
+use Illuminate\Support\Facades\Mail;
 
 class TransactionController extends Controller
 {
@@ -72,6 +74,10 @@ class TransactionController extends Controller
         $product->stock = $product->stock - $data_cart['quantity'];
         $product->save();
 
+        if($r->email) {
+            Mail::to($r->email)->send(new TransactionEmail($order->id));
+        }
+        
         return response()->json(['status' => true, 'message' => '<b>Transaction Successfull</b> <br>Total Price: <b>Rs'.number_format($totalPrice)."</b><br>Total payed amount: <b>Rs ".number_format($r->bayar)."</b><br>Change: <b>Rs ".number_format($r->kembalian)."</b><br>Invoice: <a href='".url("transaksi/invoice/".$order->invoice)."'>Click here</a>"]);
     }
 

@@ -150,6 +150,10 @@
 									<option  v-for="payment_method in payment_methods" :key="payment_method.id" :value="payment_method.id">{{ payment_method.name }}</option>
 								</select>
 							</div>
+                            <div class="form-group">
+								<label for="">Invoice Via email: </label>
+								<input type="email" class="form-control" placeholder="(optional)" v-model="transactionMail"/>
+							</div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -174,6 +178,7 @@ export default {
     
     data() {
         return {
+            transactionMail:'',
             search: '',
             cart: [],
             productSearch: [],
@@ -281,9 +286,10 @@ export default {
 			let payment_method = this.payment_method
 			let customer = this.customer;
             let quantity = this.qty;
+            let email = this.transactionMail;
 			
 
-            axios.post(`/api/v1/transaction/new`, { kembalian,bayar,cart,customer,payment_method,quantity })
+            axios.post(`/api/v1/transaction/new`, { kembalian,bayar,cart,customer,payment_method,quantity,email })
                 .then(res => {
                     console.log(res.data);
                     if(res.data.status == true) {
