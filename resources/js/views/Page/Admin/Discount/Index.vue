@@ -54,7 +54,7 @@
                                     <td>{{ discount.id }}</td>
                                     <td>{{ discount.product.name }}</td>
                                     <td>{{ discount.amount }}%</td>
-                                    <td><div :class="{ 'badge':true, 'badge-danger': discount.status == false, 'badge-success': discount.status == true }">{{ discount.status ? 'Aktif' : 'Tidak Aktif' }}</div></td>
+                                    <td><div :class="{ 'badge':true, 'badge-danger': discount.status == false, 'badge-success': discount.status == true }">{{ discount.status ? 'Active' : 'InActive' }}</div></td>
                                     <td>
                                         <button class='btn btn-danger' @click="deleteDiscount(discount.id)">Delete</button>
                                     </td>

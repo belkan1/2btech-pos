@@ -62,7 +62,7 @@
                                 <router-link to="/admin/product" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Product </span> </router-link>
                             </li>
 
-                            <li v-if="$auth.check('Admin')">
+                            <li v-if="$auth.check(['Admin','stockmanager'])">
                                 <router-link to="/admin/discount" class="waves-effect"><i class="dripicons-document-new"></i> <span> Discount </span> </router-link>
                             </li>
 

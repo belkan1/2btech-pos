@@ -7,10 +7,6 @@
 {{$product}}
 </strong> is low. Please refill the stock.
 
-{{-- @component('mail::button', ['url' => url()])
-Go to App
-@endcomponent --}}
-
 Thanks,<br>
 {{ config('app.name') }}
 @endcomponent

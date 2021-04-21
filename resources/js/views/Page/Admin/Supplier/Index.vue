@@ -63,7 +63,7 @@
                                         <td>{{ data.id }}</td>
                                         <td><img :src="`/images/suppliers/${data.image_name}`" class='image-table-users'> {{ data.name }}</td>
                                         <td>{{ data.email }}</td>
-                                        <td>{{ data.phone }}</td>
+                                        <td>{{ data.mobile }}</td>
                         
                                         <td>
                                             <button type="button" class='btn btn-primary' @click="supplierDetail(data.id)">Detail</button>

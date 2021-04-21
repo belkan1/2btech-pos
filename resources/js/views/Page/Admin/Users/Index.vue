@@ -67,7 +67,7 @@
                                         <td>{{ data.phone }}</td>
                                         <td>
                                             <div class="badge badge-primary" v-if="data.level == 'Admin'">{{ data.level }}</div>
-                                            <div class="badge badge-secondary" v-if="data.level == 'Kasir'">{{ data.level }}</div>
+                                            <div class="badge badge-secondary" v-if="data.level == 'Kasir'">Cashier</div>
                                             <div class="badge badge-success" v-if="data.level == 'stockmanager'">{{ data.level }}</div>
                                         </td>
                                         <td>
