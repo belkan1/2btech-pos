@@ -67,6 +67,8 @@
                                         <td>
                                             <img :src="`/images/products/${product.image_name}`" alt="Gambar" class='image-table'>
                                             <span>{{ product.name }}</span>
+                                            <span v-if="product.stock <= 20 && product.stock > 10" class="badge badge-warning">Stock Warning</span>
+                                            <span v-if="product.stock <= 10" class="badge badge-danger">Low Stock</span>
                                         </td>
                                         
                                         <td>{{ product.stock }}</td>
@@ -215,7 +217,7 @@
                             <div class="form-group">
                                 <label for="email">Stock</label>
                                 <input id="stock" type="number" class="form-control"
-                                    name="stock" placeholder="Stok barang" v-model="edit.stock">
+                                    name="stock" placeholder="Stock Amount" v-model="edit.stock">
                             
                             </div>
                             <div class="form-group">

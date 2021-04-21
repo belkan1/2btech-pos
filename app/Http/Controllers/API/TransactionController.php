@@ -9,7 +9,9 @@ use App\Model\TransactionDetail;
 use App\Model\Product;
 use App\Http\Resources\TransactionCollection;
 use App\Mail\TransactionEmail;
+use App\Mail\StockWarning;
 use Ramsey\Uuid\Uuid;
+use App\User;
 use Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -67,12 +69,22 @@ class TransactionController extends Controller
             
             $totalPrice += $subtotal;
             $totalPpn += $ppnnya;
+
+            $product = Product::find($data_cart['id']);
+            $product->stock = $product->stock - $data_cart['quantity'];
+            $product->save();
+
+            if($product->stock <= 10)
+            {
+                $users = User::where('level','stockmanager')->get();
+
+                foreach($users as $user) {
+                    Mail::to($user->email)->send(new StockWarning($product->name));
+                }
+                
+            }
         }
         Transaction::find($order->id)->update(['total' => $totalPrice, 'total_ppn' => $totalPpn]);
-
-        $product = Product::find($data_cart['id']);
-        $product->stock = $product->stock - $data_cart['quantity'];
-        $product->save();
 
         if($r->email) {
             Mail::to($r->email)->send(new TransactionEmail($order->id));

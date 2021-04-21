@@ -42,7 +42,7 @@
                                 <router-link to="/admin/transaksi" class="waves-effect"><i class="dripicons-archive"></i> <span> All Transactions </span> </router-link>
                             </li>
                             
-                            <li v-if="$auth.check('Admin')">
+                            <li v-if="$auth.check(['Admin','stockmanager'])">
                                 <router-link to="/admin/category" class="waves-effect"><i class="dripicons-archive"></i> <span> Category </span> </router-link>
                             </li>
                             
@@ -58,7 +58,7 @@
                                 <router-link to="/admin/supplier" class="waves-effect"><i class="dripicons-user"></i> <span> Suppliers </span> </router-link>
                             </li>
 
-                            <li v-if="$auth.check('Admin')">
+                            <li v-if="$auth.check(['Admin','stockmanager'])">
                                 <router-link to="/admin/product" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Product </span> </router-link>
                             </li>
 

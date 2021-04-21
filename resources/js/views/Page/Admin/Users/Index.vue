@@ -68,6 +68,7 @@
                                         <td>
                                             <div class="badge badge-primary" v-if="data.level == 'Admin'">{{ data.level }}</div>
                                             <div class="badge badge-secondary" v-if="data.level == 'Kasir'">{{ data.level }}</div>
+                                            <div class="badge badge-success" v-if="data.level == 'stockmanager'">{{ data.level }}</div>
                                         </td>
                                         <td>
                                             <button type="button" class='btn btn-primary' @click="userDetail(data.id)">Detail</button>
@@ -137,6 +138,7 @@
                                         <option value="">Select one..</option>
                                         <option value="Admin"  >Admin</option>
                                         <option value="Kasir" >Cashier</option>
+                                        <option value="stockmanager" >Stock Manager</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -201,6 +203,7 @@
                                         <option value="">Select one..</option>
                                         <option value="Admin"  >Admin</option>
                                         <option value="Kasir" >Cashier</option>
+                                        <option value="stockmanager" >Stock Manager</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -240,6 +243,12 @@
                             <label for="example-search-input" class="col-sm-4 col-form-label">Email: </label>
                             <div class="col-sm-8">
                                 <input class="form-control-plaintext" type="search" id="example-search-input" v-model="detail.email" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-search-input" class="col-sm-4 col-form-label">Username: </label>
+                            <div class="col-sm-8">
+                                <input class="form-control-plaintext" type="search" id="example-search-input" v-model="detail.username" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -436,7 +445,7 @@ export default {
                 }).catch(error => {
                     let statusCode = error.response.status;
                     if(statusCode == 500) {
-                        this.errors = {"error": "Terjadi kesalahan sistem."};
+                        this.errors = {"error": "System Error"};
                     }else if(statusCode == 400) {
                         console.log(error.response.data)
                         this.errors = error.response.data;

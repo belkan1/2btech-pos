@@ -7,10 +7,17 @@ Payment Method: {{$transaction->payment_method->name}}
 
 # Order Summary
 
-
+<table>
 @foreach($transaction->details as $trans  )
-<strong>{{$trans->product->name}}      x{{$trans->quantity}} {{$trans->price}} {{$trans->subtotal}}</strong><br>
+<td>
+    <td>{{$trans->product->name}}</td>
+    <td>x{{$trans->quantity}}</td>
+    <td>{{$trans->price}}</td>
+    <td>{{$trans->subtotal}}</td>
+</tr>
+        
 @endforeach
+</table>
 
 Total: {{$transaction->total}}<br>
 Total VAT: {{$transaction->total}}<br>

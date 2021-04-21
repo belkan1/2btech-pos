@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="float-right mb-2">
-                        <h5>Total Price: <span id="rp">Rs <span id="total-price" data-value='0'>{{ (totalPrice) }}</span></span></h5>
+                        <h5>Total Price: <span id="rp">Rs <span id="total-price" data-value='0'>{{ formatPrice(totalPrice) }}</span></span></h5>
                     </div>
                     <form action="" method="post" id="form-transaction">
                         <div class="table-responsive">
@@ -87,7 +87,7 @@
                                             Rs {{ formatPrice(product.ppn/100 * product.realPrice)  }} 
                                         </td>
                                         <td>
-                                            Rs {{ product.price + (product.ppn/100 * product.price) }}
+                                            Rs {{ formatPrice(product.price + (product.ppn/100 * product.price)) }}
                                         </td>
                                         <!-- <td>
                                             Rs {{ formatPrice(product.price + (product.ppn/100 * product.price)) }}
@@ -104,7 +104,7 @@
                             <div class='row' v-if="this.cart.length >= 1">
                                 <div class='col-md-6 offset-md-6'>
                                     <div class='form-group  mt-3'>
-                                        <label>Amount Payed</label>
+                                        <label>Amount Paid</label>
                                         <input type='number' :class='{"form-control":true, "is-invalid": this.error}' id='nomi  nal-bayar' name='nominal_bayar' @keyup='hitungKembalian()' v-model="bayar">
                                         <div class="invalid-feedback" v-if="this.error">
                                             {{error}}
@@ -157,7 +157,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="submit" id="submitbtn" class="btn btn-primary">Submit</button>
 					</div>
 				</form>
             </div>
@@ -279,7 +279,7 @@ export default {
         },
 
         processTransaction() {
-            
+            $('#submitbtn').addClass('disabled');
             let cart = this.cart;
             let bayar = this.bayar;
 			let kembalian= this.kembalian
@@ -298,6 +298,7 @@ export default {
                             `Order Successfull`,
                             'success'
                             );
+                            $('#submitbtn').removeClass('disabled');
 
                             this.cart = [],
                             this.kembalian = 0;
