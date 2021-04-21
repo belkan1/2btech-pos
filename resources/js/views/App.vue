@@ -55,6 +55,10 @@
                             </li>
 
                             <li v-if="$auth.check('Admin')">
+                                <router-link to="/admin/supplier" class="waves-effect"><i class="dripicons-user"></i> <span> Suppliers </span> </router-link>
+                            </li>
+
+                            <li v-if="$auth.check('Admin')">
                                 <router-link to="/admin/product" class="waves-effect"><i class="dripicons-briefcase"></i> <span> Product </span> </router-link>
                             </li>
 

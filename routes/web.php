@@ -10,5 +10,5 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/auth/{any}', 'MainController@auth')->where('any','.*');
-Route::get('/{any}', 'MainController@index')->where('any','.*');
+Route::get('/auth/{any}', 'MainController@auth')->where('any','^(?!api).*$');
+Route::get('/{any}', 'MainController@index')->where('any','^(?!api).*$');

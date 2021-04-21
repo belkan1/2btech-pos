@@ -17,7 +17,7 @@ Route::prefix('v1')->group(function()  {
     Route::middleware('cors')->group(function() {
         Route::post('/auth/login', 'API\AuthController@login');
         Route::post('/auth/register', 'API\AuthController@register');
-        Route::post('/auth/refresh', 'API\AuthController@refresh');
+        Route::get('/auth/refresh', 'API\AuthController@refresh');
         
         
         Route::middleware('auth:api')->group(function(){
@@ -40,6 +40,8 @@ Route::prefix('v1')->group(function()  {
             Route::get('product/search', 'API\ProductController@search');
             Route::resource('product', 'API\ProductController'); 
             Route::post('product/{id}', 'API\ProductController@update');
+
+            
         
             Route::post('transaction/new', 'API\TransactionController@newTransaction');
             Route::get('transaction/history', 'API\TransactionController@history');
@@ -55,6 +57,13 @@ Route::prefix('v1')->group(function()  {
             Route::get('/report/pdf_transaction', 'API\HomeController@pdf_transaction');
             Route::get('/report/pdf_products', 'API\HomeController@pdf_products');
             Route::get('/report/pdf_users', 'API\HomeController@pdf_users');
+
+            Route::get('suppliers','API\SupplierController@index');
+            Route::get('supplier/{id}','API\SupplierController@show');
+            Route::post('supplier/create','API\SupplierController@create');
+            Route::get('supplier/edit/{id}','API\SupplierController@edit');
+            Route::post('supplier/update/{id}','API\SupplierController@update');
+            Route::get('supplier/delete/{id}','API\SupplierController@destroy');
         });
     });
 });
