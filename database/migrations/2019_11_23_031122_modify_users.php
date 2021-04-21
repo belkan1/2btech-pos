@@ -14,7 +14,7 @@ class ModifyUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('level',['Admin','Kasir']);
+            $table->enum('level',['Admin','Kasir','stockmanager']);
             $table->string('image_name');
         });
     }
