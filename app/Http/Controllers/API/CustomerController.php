@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Http\Resources\CustomerCollection;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class CustomerController extends Controller
@@ -17,7 +18,13 @@ class CustomerController extends Controller
      */
     public function index(Request $r)
     {
-        return new CustomerCollection(Customer::where('name','LIKE',"%$r->search%")->orderBy('id','DESC')->paginate(10));
+        if(Auth::user()->level === "Admin") {
+            return new CustomerCollection(Customer::where('name','LIKE',"%$r->search%")->orderBy('id','DESC')->paginate(10));
+        }
+        else {
+            return new CustomerCollection(Customer::where('branch_id',Auth::user()->branch_id)->where('name','LIKE',"%$r->search%")->orderBy('id','DESC')->paginate(10));
+        }
+        
     }
 
     /**
@@ -50,6 +57,7 @@ class CustomerController extends Controller
 
         $customer = new Customer;
         $customer->name = $request->name;
+        $customer->branch_id = Auth::user()->branch_id;
         $customer->alamat = $request->alamat;
         $customer->role = $request->role;
         $customer->phone = $request->phone;

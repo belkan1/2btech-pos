@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->tinyInteger('branch_id',11)->nullable()->default('null');
             $table->string('name');
             $table->text('description');
             $table->string('code');

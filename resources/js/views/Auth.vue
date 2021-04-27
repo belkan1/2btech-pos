@@ -103,7 +103,8 @@ export default {
                 },
                 error: function() {
                     app.button_loading = false;
-                    app.auth.has_error = true
+                    app.auth.has_error = true;
+                    // window.location= '/admin';
                 },
                 rememberMe: true,
                 fetchUser: true

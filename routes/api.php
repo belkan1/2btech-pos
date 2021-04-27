@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->group(function()  {
+    Route::resource('branch','API\BranchController');
+    Route::post('branch/{id}','API\BranchController@update');
     Route::middleware('cors')->group(function() {
         Route::post('/auth/login', 'API\AuthController@login');
         Route::post('/auth/register', 'API\AuthController@register');

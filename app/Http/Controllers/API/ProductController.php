@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductCollection;
 use App\Model\Product;
+use Illuminate\Support\Facades\Auth;
 use Ramsey\Uuid\Uuid;
 
 class ProductController extends Controller
@@ -17,7 +18,12 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        return new ProductCollection(Product::where('name', 'LIKE', "%$request->search%")->where('code', 'LIKE', "%$request->search%")->orderBy('id','desc')->paginate(10));
+        if (Auth::user()->level === 'Admin') {
+            return new ProductCollection(Product::where('name', 'LIKE', "%$request->search%")->where('code', 'LIKE', "%$request->search%")->orderBy('id','desc')->paginate(10));
+        }
+        else {
+            return new ProductCollection(Product::where('branch_id',Auth::user()->branch_id)->where('name', 'LIKE', "%$request->search%")->where('code', 'LIKE', "%$request->search%")->orderBy('id','desc')->paginate(10));
+        }
     }
 
     /**
@@ -61,6 +67,7 @@ class ProductController extends Controller
         $product = new Product;
         $product->uuid = Uuid::uuid4();
         $product->name = $request->name;
+        $product->branch_id = Auth::user()->branch_id;
         $product->code = $request->code;
         $product->stock = $request->stock;
         $product->description = $request->description;

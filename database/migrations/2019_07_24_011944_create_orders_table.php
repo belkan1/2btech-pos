@@ -15,6 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->tinyInteger('branch_id',11)->nullable()->default('null');
             $table->string('invoice');
             $table->unsignedBigInteger('user_id');
             $table->float('total');

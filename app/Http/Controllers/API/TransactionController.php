@@ -13,6 +13,7 @@ use App\Mail\StockWarning;
 use Ramsey\Uuid\Uuid;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Mail;
 
 class TransactionController extends Controller
@@ -38,7 +39,7 @@ class TransactionController extends Controller
         $payment_method = $r->payment_method || 1;
         $order = Transaction::create([
             'invoice' => Uuid::uuid4(),
-            'user_id' => Auth::user()->id,
+            'user_id' => FacadesAuth::user()->id,
             'total' => 0,
             'total_ppn' => 0,
             'bayar' => $r->bayar,
@@ -76,7 +77,7 @@ class TransactionController extends Controller
 
             if($product->stock <= 10)
             {
-                $users = User::where('level','stockmanager')->get();
+                $users = User::where('level','stockmanager')->where('branch_id',FacadesAuth::user()->branch_id)->get();
 
                 foreach($users as $user) {
                     Mail::to($user->email)->send(new StockWarning($product->name));
@@ -101,7 +102,11 @@ class TransactionController extends Controller
     public function allHistory(Request $request) {
         $search = $request->get('search');
         // return new TransactionCollection(Transaction::with(['details.product','cashier','customer'])->where('id','LIKE',"%$search%")->orderBy('id','desc')->paginate(10));
+        if(FacadesAuth::user()->level === 'Admin')
         return new TransactionCollection(Transaction::with(['details.product','cashier','customer'])->where('id','LIKE',"%$search%")->orderBy('id','desc')->paginate(10));
+        else {
+            return new TransactionCollection(Transaction::with(['details.product','cashier','customer'])->where('branch_id',FacadesAuth::user()->branch_id)->where('id','LIKE',"%$search%")->orderBy('id','desc')->paginate(10));
+        }
     }
 
     public function invoice(Request $r, $invoice_id) {

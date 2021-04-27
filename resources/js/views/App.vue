@@ -20,7 +20,6 @@
 
                                 <li class="menu-title" v-if="$auth.check(['Kasir','Admin'])">Cashier</li>
 
-                                
                                 <li v-if="$auth.check(['Kasir','Admin'])">
                                     <router-link to="/transaksi" class="waves-effect"><i class="dripicons-rocket"></i> <span> Transaction </span> </router-link>
                                 </li>
@@ -30,6 +29,8 @@
                                 </li>
                         
                             <li class="menu-title" v-if="$auth.check('Admin')">Admin</li>
+
+                            <li class="menu-title" v-if="$auth.check('stockmanager')">Stock Manager</li>
 
                             <li v-if="$auth.check('Admin')">
                                 <router-link to="/admin" class="waves-effect">
@@ -66,6 +67,7 @@
                                 <router-link to="/admin/discount" class="waves-effect"><i class="dripicons-document-new"></i> <span> Discount </span> </router-link>
                             </li>
 
+                            
                             <li v-if="$auth.check('Admin')">
                                 <router-link to="/admin/report" class="waves-effect"><i class="dripicons-document-new"></i><span> Report </span> </router-link>
                             </li>

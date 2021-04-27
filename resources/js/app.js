@@ -55,6 +55,8 @@ import AdminProductDetail from './views/Page/Admin/Product/Detail.vue';
 import AdminProductAdd from './views/Page/Admin/Product/Add.vue';
 import AdminProductEdit from './views/Page/Admin/Product/Edit.vue';
 
+import AdminBranchIndex from './views/Page/Admin/Branch/index';
+
 import AdminSupplierIndex from './views/Page/Admin/Supplier/Index.vue';
 
 import AdminReport from './views/Page/Admin/Report/Index.vue'
@@ -107,6 +109,7 @@ const router = new VueRouter({
         
         { path: '/admin/report', component: AdminReport, meta: { auth:true }},
         { path: '/admin/supplier',component: AdminSupplierIndex, meta: { auth:true}},
+        { path: '/admin/Branch',component: AdminBranchIndex, meta: { auth:true}},
 
         { path: '/login', component: AuthLogin, meta: { auth: false, pageType: 'auth' } },
     ]

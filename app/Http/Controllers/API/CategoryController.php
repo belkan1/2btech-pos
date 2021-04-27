@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryCollection;
 use App\Model\Category;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,11 @@ class CategoryController extends Controller
      */
     public function index(Request $r)
     {
+        if(Auth::user()->level === 'Admin')
         return new CategoryCollection(Category::where('name','LIKE',"%".$r->get('search')."%")->orderBy('id','desc')->paginate(10));
+        else {
+            return new CategoryCollection(Category::where('branch_id',Auth::user()->branch_id)->where('name','LIKE',"%".$r->get('search')."%")->orderBy('id','desc')->paginate(10));
+        }
     }
 
     /**
@@ -54,6 +59,7 @@ class CategoryController extends Controller
 
         $insert = Category::create([
             'name' => $name,
+            'branch_id'=> Auth::user()->branch_id,
             'description' => $description,
             'slug' => $slug,
             'image_name' => $imageName

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCollection;
 use App\User;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 use Validator;
 
 class UsersController extends Controller
@@ -18,8 +19,11 @@ class UsersController extends Controller
      */
     public function index(Request $r)
     {
-        
+        if(Auth::user()->level === 'Admin')
         return new UserCollection(User::where('name','LIKE',"%".$r->search."%")->orderBy('id','desc')->paginate(10));
+        else {
+            return new UserCollection(User::where('name','LIKE',"%".$r->search."%")->where('branch_id',Auth::user()->branch_id)->orderBy('id','desc')->paginate(10));
+        }
         // return User::all();
     }
 
@@ -48,7 +52,7 @@ class UsersController extends Controller
             'password' => ['required', 'string', 'min:8'],
             'photo' => ['required', 'image'],
             'username' => ['required','min:6', 'unique:users'],
-            'level' => ['required','in:Admin,Kasir'],
+            'level' => ['required','in:Admin,Kasir,stockmanager'],
             'address' => 'required',
             'phone' => 'required|numeric',
         ]);
@@ -66,6 +70,7 @@ class UsersController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'branch_id' => Auth::user()->branch_id,
             'username' => $request->username,
             'phone' => $request->phone,
             'address' => $request->address,
@@ -138,17 +143,35 @@ class UsersController extends Controller
             $user = User::find($id,'image_name');
             $image_name = $user->image_name;
         }
-        User::find($id)->update([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'level' => $request->level,
-            'image_name' => $image_name,
-        ]);
 
+        if($request->password)
+        {
+            User::find($id)->update([
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'level' => $request->level,
+                'image_name' => $image_name,
+            ]);
+        }
+
+        else
+        {
+            User::find($id)->update([
+                'name' => $request->name,
+                'username' => $request->username,
+                'email' => $request->email,
+                // 'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'level' => $request->level,
+                'image_name' => $image_name,
+            ]);
+        }
+        
         return response()->json(['status'=>'Success']);
     }
 

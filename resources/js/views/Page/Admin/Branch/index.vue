@@ -6,7 +6,7 @@
                 <div class="page-title-box">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h4 class="page-title m-0">User</h4>
+                            <h4 class="page-title m-0">Branches</h4>
                         </div>
                         <!-- end col -->
                     </div>
@@ -23,7 +23,7 @@
                     <div class="card-body">
                         <div class="row mb-3">
                             <div class="col-8">
-                                <h4 class="mt-0 header-title">All Users</h4>
+                                <h4 class="mt-0 header-title">All Branches</h4>
                             </div>
                             
                             <div class="col-4">
@@ -43,7 +43,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
                                 </div>
-                                    <input type="text" class="form-control" placeholder="Search User By Name/Email"  aria-describedby="basic-addon1" v-model="search" @keyup="searchData">
+                                    <input type="text" class="form-control" placeholder="Search branch By Name/Email"  aria-describedby="basic-addon1" v-model="search" @keyup="searchData">
                                 </div>
                             </div>
                         </div>
@@ -54,26 +54,22 @@
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Mobile No</th>
-                                        <th>Level</th>
+                                        <th>Phone</th>
+                                        <th>Address</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="data in users" v-bind:key='data.id'>
+                                    <tr v-for="data in branches" v-bind:key='data.id'>
                                         <td>{{ data.id }}</td>
-                                        <td><img :src="`/images/users/${data.image_name}`" class='image-table-users'> {{ data.name }}</td>
+                                        <td>{{ data.name }}</td>
                                         <td>{{ data.email }}</td>
                                         <td>{{ data.phone }}</td>
+                                        <td>{{ data.address }}</td>
                                         <td>
-                                            <div class="badge badge-primary" v-if="data.level == 'Admin'">{{ data.level }}</div>
-                                            <div class="badge badge-secondary" v-if="data.level == 'Kasir'">Cashier</div>
-                                            <div class="badge badge-success" v-if="data.level == 'stockmanager'">{{ data.level }}</div>
-                                        </td>
-                                        <td>
-                                            <button type="button" class='btn btn-primary' @click="userDetail(data.id)">Detail</button>
-                                            <button type="button" class='btn btn-warning' @click="userEdit(data.id)">Edit</button>
-                                            <button type="button" @click="userDelete(data.id)" class="btn btn-danger">Delete</button>
+                                            <button type="button" class='btn btn-primary' @click="branchDetail(data.id)">Detail</button>
+                                            <button type="button" class='btn btn-warning' @click="branchEdit(data.id)">Edit</button>
+                                            <button type="button" @click="branchDelete(data.id)" class="btn btn-danger">Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -96,12 +92,12 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Add Branch</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="" method='POST' enctype="multipart/form-data" @submit.prevent="userAdd()">
+                    <form action="" method='POST' enctype="multipart/form-data" @submit.prevent="branchAdd()">
                         <div class="modal-body">
                             <div class="alert alert-danger" v-if="errors != ''" >
                                 <ul>
@@ -109,43 +105,24 @@
                                 </ul>
                             </div>
                                 <div class="form-group">
-                                    <label for="">Name User: </label>
+                                    <label for="">Branch name: </label>
                                     <input type="text" name="name" class="form-control" v-model="add.name">
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Username: </label>
-                                    <input type="text" name="name" class="form-control" v-model="add.username">
-                                </div>
+                               
                                 <div class="form-group">
                                     <label for="">Email: </label>
                                     <input type="email" name="name" class="form-control" v-model="add.email">
                                 </div>
+                                
                                 <div class="form-group">
-                                    <label for="">Password: </label>
-                                    <input type='text' name="description" class="form-control" v-model="add.password">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Mob: </label>
+                                    <label for="">Phone: </label>
                                     <input type='text' name="description" class="form-control" v-model="add.phone">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Address: </label>
                                     <textarea name="description" class="form-control" v-model="add.address"></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Level: </label>
-                                    <select name="level" id="" v-model="add.level" class="form-control">
-                                        <option value="">Select one..</option>
-                                        <option value="Admin"  >Admin</option>
-                                        <option value="Kasir" >Cashier</option>
-                                        <option value="stockmanager" >Stock Manager</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Image: </label>
-                                    <input type="file" name="file" id="" class='form-control-file' accept='image/*' @change="onChangePhotoAdd">
-                                    <img :src="`/images/categories/${add.image_name}`" alt="" class="image-table" id='add-category-image'>
-                                </div>
+                        
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -160,12 +137,12 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Branch</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                         <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="" method='POST' enctype="multipart/form-data" @submit.prevent="userUpdate(edit.id)">
+                    <form action="" method='POST' enctype="multipart/form-data" @submit.prevent="branchUpdate(edit.id)">
                         
                         <div class="modal-body">
                                 <div class="alert alert-danger" v-if="errors != ''" >
@@ -174,43 +151,23 @@
                                     </ul>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Full Name: </label>
+                                    <label for="">Branch Name: </label>
                                     <input type="text" name="name" class="form-control" v-model="edit.name">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Username: </label>
-                                    <input type="text" name="name" class="form-control" v-model="edit.username">
-                                </div>
-                                <div class="form-group">
                                     <label for="">Email: </label>
-                                    <input type="text" name="name" class="form-control" v-model="edit.email">
+                                    <input type="email" name="name" class="form-control" v-model="edit.email">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Password: </label>
-                                    <input type='text' name="description" class="form-control" v-model="edit.password" placeholder="atleast 8 characters">
+                                    <label for="">Phone: </label>
+                                    <input type="text" name="name" class="form-control" v-model="edit.phone">
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Mobile: </label>
-                                    <input type='text' name="description" class="form-control" v-model="edit.phone">
-                                </div>
+
                                 <div class="form-group">
                                     <label for="">Address: </label>
-                                    <textarea name="description" class="form-control" v-model="edit.address"></textarea>
+                                    <input type="text" name="name" class="form-control" v-model="edit.address">
                                 </div>
-                                <div class="form-group">
-                                    <label for="">Level: </label>
-                                    <select name="level" id="" v-model="edit.level" class="form-control">
-                                        <option value="">Select one..</option>
-                                        <option value="Admin"  >Admin</option>
-                                        <option value="Kasir" >Cashier</option>
-                                        <option value="stockmanager" >Stock Manager</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Image: </label>
-                                    <input type="file" name="file" id="" class='form-control-file' accept='image/*' @change="onChangePhotoEdit">
-                                    <img :src="`/images/users/${edit.image_name}`" alt="" class="image-table" id='edit-category-image'>
-                                </div>
+                                
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -225,7 +182,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">User Detail</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Branch Detail</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -234,7 +191,7 @@
                         
                     <div class="modal-body">
                         <div class="form-group row">
-                            <label for="example-search-input" class="col-sm-4 col-form-label">Full Name: </label>
+                            <label for="example-search-input" class="col-sm-4 col-form-label">Branch Name: </label>
                             <div class="col-sm-8">
                                 <input class="form-control-plaintext" type="search" id="example-search-input" v-model="detail.name" readonly>
                             </div>
@@ -245,14 +202,9 @@
                                 <input class="form-control-plaintext" type="search" id="example-search-input" v-model="detail.email" readonly>
                             </div>
                         </div>
+                
                         <div class="form-group row">
-                            <label for="example-search-input" class="col-sm-4 col-form-label">Username: </label>
-                            <div class="col-sm-8">
-                                <input class="form-control-plaintext" type="search" id="example-search-input" v-model="detail.username" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="example-search-input" class="col-sm-4 col-form-label">Mobile No: </label>
+                            <label for="example-search-input" class="col-sm-4 col-form-label">Phone No: </label>
                             <div class="col-sm-8">
                                 <input class="form-control-plaintext" type="search" id="example-search-input" v-model="detail.phone" readonly>
                             </div>
@@ -261,12 +213,6 @@
                             <label for="example-search-input" class="col-sm-4 col-form-label">Address: </label>
                             <div class="col-sm-8">
                                 <textarea name="" id="" cols="30" rows="4" class="form-control-plaintext" v-model="detail.address"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="example-search-input" class="col-sm-4 col-form-label">Level: </label>
-                            <div class="col-sm-8">
-                                <input name="" class="form-control-plaintext" v-model="detail.level">
                             </div>
                         </div>
                     </div>
@@ -296,24 +242,16 @@ export default {
                 id: '',
                 name: '',
                 email: '',
-                password: '',
-                username: '',
-                password: '',
-                level: '',
+                phone: '',
                 address: '',
-                image_name: '',
-                photo: '',
             },
             add: {
                 id: '',
                 name: '',
                 email: '',
-                password: '',
-                username: '',
-                level: '',
+                phone: '',
                 address: '',
-                image_name: '',
-                photo: '',
+                
             },
             errors: '',
             detail: {},
@@ -321,7 +259,7 @@ export default {
             name: '',
             description: '',
             search: '',
-            users: [],
+            branches: [],
             photo: '',
             
             page: 1,
@@ -335,9 +273,9 @@ export default {
 
     methods: {  
         displayData(page = 1, search= '') {
-            axios.get('/api/v1/user', { params: { search: this.search, page: this.page } })
+            axios.get('/api/v1/branch', { params: { search: this.search, page: this.page } })
                 .then(result => {
-                    this.users = result.data.data;
+                    this.branches = result.data.data;
                     this.last_page = result.data.meta.last_page;
                     this.current_page = result.data.meta.current_page;
                     this.next_page_url = result.data.links.next;
@@ -345,19 +283,19 @@ export default {
                 });
         },
 
-        userDetail(id) {
-            axios.get(`/api/v1/user/${id}`)
+        branchDetail(id) {
+            axios.get(`/api/v1/branch/${id}`)
                 .then(res => {
                     this.detail = res.data;
                     console.log(res.data);
                     $('#modalDetail').modal('show');
                 });
         },
-        userDelete(id) {
+        branchDelete(id) {
             let that = this;
             alertify.confirm("Are you sure?", function (ev) {
                 ev.preventDefault();
-                axios.delete(`/api/v1/user/${id}`)
+                axios.delete(`/api/v1/branch/${id}`)
                     .then(res => {
                         console.log(res);
                         that.displayData();
@@ -368,38 +306,29 @@ export default {
                 alertify.error("Cancel Deletion");
             });
         },
-        userEdit(id) {
-            axios.get(`/api/v1/user/${id}/edit`)
+        branchEdit(id) {
+            axios.get(`/api/v1/branch/${id}/edit`)
                 .then(res => {
                     this.edit.id = res.data.id;
                     this.edit.name = res.data.name;
-                    this.edit.username = res.data.username;
-                    this.edit.password = res.data.password;
+                    this.edit.phone = res.data.phone;
                     this.edit.email = res.data.email;
                     this.edit.phone = res.data.phone;
                     this.edit.address = res.data.address;
-                    this.edit.level = res.data.level;
-                    this.edit.image_name = res.data.image_name;
                 })
                 
             $('#modalEdit').modal('toggle');
         },
 
-        userUpdate(id) {
+        branchUpdate(id) {
             let formData = new FormData();
             
             formData.append('name', this.edit.name);
             formData.append('email', this.edit.email);
-            if(this.edit.password) {
-                formData.append('password', this.edit.password);
-            }
             formData.append('phone', this.edit.phone);
             formData.append('address', this.edit.address);
-            formData.append('level', this.edit.level);
-            formData.append('username', this.edit.username);
-            formData.append('photo', this.edit.photo);
 
-            axios.post(`/api/v1/user/${this.edit.id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            axios.post(`/api/v1/branch/${this.edit.id}`, formData,{ headers: { 'Content-Type': 'multipart/form-data' }  })
                 .then(res => {
                     $('#modalEdit').modal('toggle');
                     this.displayData();
@@ -419,19 +348,15 @@ export default {
                     }
                 });
         },
-        userAdd() {
+        branchAdd() {
             let formData = new FormData();
             
             formData.append('name', this.add.name);
             formData.append('email', this.add.email);
-            formData.append('password', this.add.password);
             formData.append('phone', this.add.phone);
             formData.append('address', this.add.address);
-            formData.append('level', this.add.level);
-            formData.append('username', this.add.username);
-            formData.append('photo', this.add.photo);
 
-            axios.post('/api/v1/user', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            axios.post('/api/v1/branch', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
                 .then(res => {
                     console.log(res);
                     $('#modalAdd').modal('toggle');
@@ -439,7 +364,7 @@ export default {
                     setTimeout(() => {
                         Swal.fire(
                         `Success!`,
-                        `User Added Successfully ${this.add.level}!`,
+                        `Branch Added Successfully ${this.add.name}!`,
                         'success'
                         )
                     }, 200);
@@ -455,16 +380,16 @@ export default {
                 });
         },
 
-        onChangePhotoAdd() {
-            this.add.photo = event.target.files[0];
-            $('#add-category-image').attr('src', URL.createObjectURL(event.target.files[0]));
-        },
+        // onChangePhotoAdd() {
+        //     this.add.photo = event.target.files[0];
+        //     $('#add-category-image').attr('src', URL.createObjectURL(event.target.files[0]));
+        // },
 
-        onChangePhotoEdit() {
-            this.edit.photo = event.target.files[0];
-            $('#edit-category-image').attr('src', URL.createObjectURL(event.target.files[0]));
+        // onChangePhotoEdit() {
+        //     this.edit.photo = event.target.files[0];
+        //     $('#edit-category-image').attr('src', URL.createObjectURL(event.target.files[0]));
             
-        },
+        // },
 
         nextPage() {
             let nextPage = this.current_page+1;

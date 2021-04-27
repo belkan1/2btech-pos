@@ -88,7 +88,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Product name/code</label>
-                                    <input type="text" class="form-control" placeholder="Search by product name/code" id="kode-produk" v-model="search" @keyup="searchProduct()">
+                                    <input type="text" class="form-control" autocomplete="off" placeholder="Search by product name/code" id="kode-produk" v-model="search" @keyup="searchProduct()">
                                     <div class="dropdown-search">
                                         <ul>
                                             <li v-for="data in productSearch" :key="data.id" @click="addProduct(data)"><img :src="`/images/products/${data.image_name}`" alt="" class='dropdown-image'><span><b>{{ data.code.toUpperCase() }}</b> - {{ data.name }}</span></li>

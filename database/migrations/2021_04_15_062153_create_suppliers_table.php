@@ -15,6 +15,7 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->tinyInteger('branch_id',11)->nullable()->default('null');
             $table->string('name');
             $table->string('email')->unique();
             $table->integer('mobile',20)->nullable();

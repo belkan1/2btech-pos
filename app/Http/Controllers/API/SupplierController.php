@@ -5,12 +5,19 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Supplier;
+use Illuminate\Support\Facades\Auth;
 
 class SupplierController extends Controller
 {
     public function index(Request $r) {
 
-        return Supplier::where('name','LIKE',"%".$r->search."%")->orderBy('id','desc')->paginate(10);
+        if(Auth::user()->level === 'Admin') {
+            return Supplier::where('name','LIKE',"%".$r->search."%")->orderBy('id','desc')->paginate(10);
+        }
+        else {
+            return Supplier::where('branch_id',Auth::user()->branch_id)->where('name','LIKE',"%".$r->search."%")->orderBy('id','desc')->paginate(10);
+
+        }
     }
 
     public function create(Request $req)
@@ -32,6 +39,7 @@ class SupplierController extends Controller
 
         $supplier = new Supplier;
         $supplier->name = $req->name;
+        $supplier->branch = Auth::user()->branch_id;
         $supplier->email = $req->email;
         $supplier->mobile = $req->mobile;
         $supplier->image_name = $image_name;
